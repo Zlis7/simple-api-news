@@ -1,10 +1,29 @@
 {
-  "repository": "https://github.com/vercel/examples.git",
-  "license": "MIT",
-  "private": true,
-  "devDependencies": {
-    "@types/node": "^17.0.42",
-    "@vercel/node": "^2.9.6",
-    "typescript": "^4.7.3"
+  "name": "simple-api-news",
+  "version": "1.0.0",
+  "description": "simple-api-news",
+  "keywords": [
+    "project",
+    "news",
+    "server",
+    "api"
+  ],
+  "homepage": "https://github.com/Zlis7/simple-api-news#readme",
+  "bugs": {
+    "url": "https://github.com/Zlis7/simple-api-news/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zlis7/simple-api-news.git"
+  },
+  "license": "ISC",
+  "author": "Zlis7",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
   }
 }
