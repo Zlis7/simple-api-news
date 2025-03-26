@@ -2,6 +2,7 @@
   "name": "simple-api-news",
   "version": "1.0.0",
   "description": "simple-api-news",
+  "types": "commonjs",
   "keywords": [
     "project",
     "news",
@@ -21,9 +22,15 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "firebaseInit": "firebase init",
+    "firebaseLogin": "firebase login"
   },
   "dependencies": {
-    "express": "^4.21.2"
+    "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
+    "express": "^4.21.2",
+    "firebase": "^11.5.0",
+    "firebase-admin": "^13.2.0",
+    "firebase-tools": "^13.35.1"
   }
 }
