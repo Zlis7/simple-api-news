@@ -26,6 +26,15 @@
           })
       };
 
+      app.get('/getNameAndPhotoUserByID', async(req, res) => {
+        if (req.query.apiKey != '7dbd6be92a7faeebcc1395f9f8c5d19dc77c8340'){
+            res.status(403).json({error: 'Invalid access key'});
+        };
+
+        const dataUser = await firebase.auth().getUser(req.query.uid)
+        res.status(200).json({ userName: dataUser.displayName, photoURL: dataUser.photoURL});
+    });
+
     app.get('/listAllUsersByPageNumber', async(req, res) => {
         if (req.query.apiKey != '7dbd6be92a7faeebcc1395f9f8c5d19dc77c8340'){
             res.status(403).json({error: 'Invalid access key'});
