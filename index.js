@@ -8,37 +8,66 @@
         databaseURL: 'https://desktopnews-f7f75-default-rtdb.firebaseio.com'
     });
 
-    const db = firebase.database();
     const app = express();
     app.use(express.json());
 
-    app.post('/login', async(req, res) => {
-        try {
-            const userRecord = await defaultApp.auth().getUserByEmail(req.body['email'])
+    let listAllUsers = [];
 
-            res.json({ content: true, user: userRecord});
-        } catch (error) {
-            res.status(403).json({error:error.message});
-        }
-    });
-
-    app.post('/registration', async(req, res) => {
-        try {
-            const userRecord = await defaultApp.auth().createUser ({
-                email: req.body['email'],
-                password: req.body['password'],
-                emailVerified: false,
-                disabled: false
+    const setlistAllUsers = async(nextPageToken) => {
+        await firebase.auth()
+          .listUsers(1000, nextPageToken)
+          .then((listUsersResult) => {
+            listUsersResult.users.forEach((userRecord) => {
+                listAllUsers.push(userRecord.toJSON());
             });
+            if (listUsersResult.pageToken) {
+                setlistAllUsers(listUsersResult.pageToken);
+            }
+          })
+      };
 
-            res.json({ content: true, uid: userRecord.uid });
-        } catch (error) {
-            res.status(403).json({error:error.message});
-        }
+    app.get('/listAllUsersByPageNumber', async(req, res) => {
+        if (req.query.apiKey != '7dbd6be92a7faeebcc1395f9f8c5d19dc77c8340'){
+            res.status(403).json({error: 'Invalid access key'});
+        };
+
+        listAllUsers = [];
+        await setlistAllUsers(req.query.page);
+
+        res.status(200).json({ listAllUsers: listAllUsers });
     });
-    
+
+    app.post('/disabelUserByID', async (req, res) => {
+        if (req.body['apiKey'] != '7dbd6be92a7faeebcc1395f9f8c5d19dc77c8340'
+            || req.body['apiKey'] === undefined || req.body['apiKey'] === null
+        ){
+            res.status(403).json({error: 'Invalid access key'});
+        };
+        
+        await firebase.auth()
+        .updateUser(req.body['uid'], {
+            disabled: req.body['disabled'],
+        })
+
+        res.status(200).json({ statusOperation: 'success' });
+    })
+
+    app.post('/updateUserByID', async (req, res) => {
+        if (req.body['apiKey'] != '7dbd6be92a7faeebcc1395f9f8c5d19dc77c8340'
+            || req.body['apiKey'] === undefined || req.body['apiKey'] === null
+        ){
+            res.status(403).json({error: 'Invalid access key'});
+        };
+
+        await firebase.database().ref('users').child(req.body['uid']).set({
+            age: req.body['age'],
+            role: req.body['role']
+        });
+
+        res.status(200).json({ statusOperation: 'success' });
+    })
+
     
     app.listen(3001, () => {});
-
     module.exports = app;
 })();
