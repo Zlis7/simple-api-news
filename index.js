@@ -23,10 +23,10 @@
             if (listUsersResult.pageToken) {
                 setlistAllUsers(listUsersResult.pageToken);
             }
-          })
-      };
+        })
+    };
 
-      app.get('/getNameAndPhotoUserByID', async(req, res) => {
+    app.get('/getNameAndPhotoUserByID', async(req, res) => {
         if (req.query.apiKey != '7dbd6be92a7faeebcc1395f9f8c5d19dc77c8340'){
             res.status(403).json({error: 'Invalid access key'});
         };
