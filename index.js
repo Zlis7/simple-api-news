@@ -1,7 +1,7 @@
 (() => {
   const express = require("express");
   const firebase = require("firebase-admin");
-  const serviceAccount = require("./desktopnews-f7f75-firebase-adminsdk-fbsvc-f951b49b05.json");
+  const serviceAccount = require("./desktopnews-f7f75-firebase-adminsdk-fbsvc-f4f3f4925c.json");
 
   firebase.initializeApp({
     credential: firebase.credential.cert(serviceAccount),
